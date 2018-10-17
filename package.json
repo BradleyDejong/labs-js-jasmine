@@ -1,0 +1,26 @@
+{
+  "name": "labs-js-jasmine",
+  "version": "1.0.0",
+  "description": "labs-js-jasmine ===============",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lr-http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgileInstitute/labs-js-jasmine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AgileInstitute/labs-js-jasmine/issues"
+  },
+  "homepage": "https://github.com/AgileInstitute/labs-js-jasmine#readme",
+  "devDependencies": {
+    "lr-http-server": "^0.1.5"
+  }
+}
