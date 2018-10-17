@@ -17,6 +17,34 @@ Game.prototype = {
       (((amount / 20) * distance) / 200 + this.randomWithinLimitOf(200))
     );
   },
+  subtractEnergyFromMeAndApplyDamangeToEnemy: function(enemy, amount, ui) {
+    const distance = enemy.distance;
+    if (distance > this.maxPhaserRange) {
+      ui.writeLine(
+        "Klingon out of range of phasers at " + distance + " sectors..."
+      );
+    } else {
+      damage = this.calculateDamageByDistance(amount, distance);
+      if (damage < 1) {
+        damage = 1;
+      }
+      ui.writeLine(
+        "Phasers hit Klingon at " +
+          distance +
+          " sectors with " +
+          damage +
+          " units"
+      );
+      if (damage < enemy.energy) {
+        enemy.energy = enemy.energy - damage;
+        ui.writeLine("Klingon has " + enemy.energy + " remaining");
+      } else {
+        ui.writeLine("Klingon destroyed!");
+        enemy.destroy();
+      }
+    }
+    this.e -= amount;
+  },
   processCommand: function(ui) {
     var enemy;
     var distance;
@@ -25,32 +53,7 @@ Game.prototype = {
       var amount = parseInt(ui.parameter("amount"), 10);
       enemy = ui.variable("target");
       if (this.e >= amount) {
-        distance = enemy.distance;
-        if (distance > this.maxPhaserRange) {
-          ui.writeLine(
-            "Klingon out of range of phasers at " + distance + " sectors..."
-          );
-        } else {
-          damage = this.calculateDamageByDistance(amount, distance);
-          if (damage < 1) {
-            damage = 1;
-          }
-          ui.writeLine(
-            "Phasers hit Klingon at " +
-              distance +
-              " sectors with " +
-              damage +
-              " units"
-          );
-          if (damage < enemy.energy) {
-            enemy.energy = enemy.energy - damage;
-            ui.writeLine("Klingon has " + enemy.energy + " remaining");
-          } else {
-            ui.writeLine("Klingon destroyed!");
-            enemy.destroy();
-          }
-        }
-        this.e -= amount;
+        this.subtractEnergyFromMeAndApplyDamangeToEnemy(enemy, amount, ui);
       } else {
         ui.writeLine("Insufficient energy to fire phasers!");
       }
