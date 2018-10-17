@@ -115,17 +115,6 @@ Game.prototype = {
   randomWithinLimitOf: function(n) {
     return Math.floor(this.generator() * n);
   },
-  applyDamageToTarget: function(enemy, damage) {
-    var messages = [];
-    if (damage < enemy.energy) {
-      enemy.energy = enemy.energy - damage;
-      messages.push("Klingon has " + enemy.energy + " remaining");
-    } else {
-      messages.push("Klingon destroyed!");
-      enemy.destroy();
-    }
-    return messages;
-  },
   processCommand: function(ui) {
     function writeAllMessages(msgs) {
       msgs.forEach(m => ui.writeLine(m));
