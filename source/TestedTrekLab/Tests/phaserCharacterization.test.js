@@ -5,14 +5,14 @@ describe("phasers", function() {
 
   beforeEach(function() {
     game = new Game();
-    energyBefore = game.energy;
+    energyBefore = game.energySource.remaining;
     ui = new UserInterface("phaser");
     spyOn(ui, "writeLine");
   });
 
   it("should complain with insufficient energy when not available", function() {
     // given
-    ui.commandParameter = game.energy + 1;
+    ui.commandParameter = game.energySource.remaining + 1;
 
     // when
     game.processCommand(ui);
@@ -40,7 +40,7 @@ describe("phasers", function() {
     });
 
     it("still subtracts the energy", function() {
-      expect(game.energy).toBe(energyBefore - energyToFire);
+      expect(game.energySource.remaining).toBe(energyBefore - energyToFire);
     });
   });
 
@@ -51,7 +51,7 @@ describe("phasers", function() {
       spyOn(klingon, "destroy");
       ui.target = klingon;
       ui.commandParameter = 1000;
-      spyOn(game, "generator").and.returnValue(0);
+      spyOn(game.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -64,7 +64,7 @@ describe("phasers", function() {
     });
 
     it("subtracts energy", function() {
-      expect(game.energy).toBe(energyBefore - 1000);
+      expect(game.energySource.remaining).toBe(energyBefore - 1000);
     });
 
     it("really destroys", function() {
@@ -76,7 +76,7 @@ describe("phasers", function() {
     beforeEach(function() {
       ui.target = new Klingon(2000, 200);
       ui.commandParameter = 50;
-      spyOn(game, "generator").and.returnValue(0);
+      spyOn(game.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -89,7 +89,7 @@ describe("phasers", function() {
     });
 
     it("subtracts energy", function() {
-      expect(game.energy).toBe(energyBefore - 50);
+      expect(game.energySource.remaining).toBe(energyBefore - 50);
     });
   });
 
@@ -97,7 +97,7 @@ describe("phasers", function() {
     beforeEach(function() {
       ui.target = new Klingon(2000, 200);
       ui.commandParameter = 0;
-      spyOn(game, "generator").and.returnValue(0);
+      spyOn(game.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -110,7 +110,7 @@ describe("phasers", function() {
     });
 
     it("mistakenly doesn'torpedoes subtract that one unit", function() {
-      expect(game.energy).toBe(energyBefore);
+      expect(game.energySource.remaining).toBe(energyBefore);
     });
   });
 });

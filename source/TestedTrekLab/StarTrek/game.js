@@ -1,3 +1,13 @@
+Source = function(capacity) {
+  this.remaining = capacity;
+};
+
+Source.prototype = {
+  subtract(val) {
+    this.remaining = this.remaining - val;
+  }
+};
+
 Weapon = function(randomGenerator) {
   this.randomWithinLimitOf = n => {
     return Math.floor(randomGenerator.generator() * n);
@@ -21,24 +31,25 @@ Weapon.prototype = {
   }
 };
 
-Phasers = function(randomGenerator) {
+Phasers = function(randomGenerator, energySource) {
   Weapon.call(this, randomGenerator);
+  this.energySource = energySource;
 };
 Phasers.prototype = Object.create(Weapon.prototype);
 Phasers.prototype.maxPhaserRange = 4000;
-Phasers.prototype.fire = function(ship, enemy, ui) {
+Phasers.prototype.fire = function(enemy, ui) {
   var amount = parseInt(ui.parameter("amount"), 10);
 
-  const canFire = () => ship.energy >= amount;
+  const canFire = this.energySource.remaining >= amount;
 
-  if (canFire()) {
-    return this.firePhaserAt(ship, enemy, amount);
+  if (canFire) {
+    return this.firePhaserAt(enemy, amount);
   } else {
     return ["Insufficient energy to fire phasers!"];
   }
 };
 
-Phasers.prototype.firePhaserAt = function(ship, enemy, amount) {
+Phasers.prototype.firePhaserAt = function(enemy, amount) {
   const distance = enemy.distance;
   var messages = [];
   if (distance > this.maxPhaserRange) {
@@ -57,7 +68,7 @@ Phasers.prototype.firePhaserAt = function(ship, enemy, amount) {
     );
     messages = messages.concat(this.applyDamageToTarget(enemy, damage));
   }
-  ship.energy -= amount;
+  this.energySource.subtract(amount);
   return messages;
 };
 
@@ -69,21 +80,23 @@ Phasers.prototype.calculateDamageByDistance = function(maxDamage, distance) {
   return finalDamage < 1 ? 1 : finalDamage;
 };
 
-Torpedoes = function(gen) {
+Torpedoes = function(gen, torpedoSource) {
   Weapon.call(this, gen);
+  this.torpedoMagazine = torpedoSource;
 };
 Torpedoes.prototype = Object.create(Weapon.prototype);
 
-Torpedoes.prototype.fire = function(ship, enemy) {
-  const canFire = () => ship.torpedoes > 0;
-  if (canFire()) {
-    return this.fireTorpedoAt(ship, enemy);
+Torpedoes.prototype.fire = function(enemy) {
+  console.log(this.torpedoMagazine);
+  const canFire = this.torpedoMagazine.remaining > 0;
+  if (canFire) {
+    return this.fireTorpedoAt(enemy);
   } else {
     return ["No more photon torpedoes!"];
   }
 };
 
-Torpedoes.prototype.fireTorpedoAt = function(ship, enemy) {
+Torpedoes.prototype.fireTorpedoAt = function(enemy) {
   var messages = [];
   var distance = enemy.distance;
   if (this.randomWithinLimitOf(4) + (distance / 500 + 1) > 7) {
@@ -99,38 +112,43 @@ Torpedoes.prototype.fireTorpedoAt = function(ship, enemy) {
     );
     messages = messages.concat(this.applyDamageToTarget(enemy, damage));
   }
-  ship.torpedoes--;
+  this.torpedoMagazine.subtract(1);
   return messages;
 };
 
 Game = function() {
-  this.energy = 10000;
-  this.torpedoes = 8;
+  this.energySource = new Source(10000);
+  this.torpedoTubes = new Source(8);
+  this.randomness = new RandomGenerator();
+
+  const myPhasers = new Phasers(this.randomness, this.energySource);
+  const myTorpedoes = new Torpedoes(this.randomness, this.torpedoTubes);
+
+  this.weapons = {
+    phaser: myPhasers.fire.bind(myPhasers),
+    photon: myTorpedoes.fire.bind(myTorpedoes)
+  };
 };
 
 Game.prototype = {
-  generator: function() {
-    return Math.random();
-  },
-  randomWithinLimitOf: function(n) {
-    return Math.floor(this.generator() * n);
-  },
   processCommand: function(ui) {
     function writeAllMessages(msgs) {
       msgs.forEach(m => ui.writeLine(m));
     }
 
-    const myPhasers = new Phasers(this);
-    const myTorpedoes = new Torpedoes(this);
-
-    const weapons = {
-      phaser: myPhasers.fire.bind(myPhasers), //this.tryFirePhaser.bind(this),
-      photon: myTorpedoes.fire.bind(myTorpedoes)
-    };
-
     const command = ui.parameter("command");
     const enemy = ui.variable("target");
+    writeAllMessages(this.weapons[command](enemy, ui));
+  }
+};
 
-    writeAllMessages(weapons[command](this, enemy, ui));
+RandomGenerator = function() {};
+
+RandomGenerator.prototype = {
+  generator: function() {
+    return Math.random();
+  },
+  randomWithinLimitOf: function(n) {
+    return Math.floor(this.generator() * n);
   }
 };
