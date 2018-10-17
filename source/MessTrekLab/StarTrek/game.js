@@ -1,6 +1,6 @@
 Game = function() {
-    this.e = 10000;
-    this.t = 8;
+    this.energy = 10000;
+    this.torpedoes = 8;
 };
 
 Game.prototype = {
@@ -14,7 +14,7 @@ Game.prototype = {
         if(ui.parameter("command") === "phaser") {
             var amount = parseInt(ui.parameter("amount"), 10);
             enemy = ui.variable("target");
-            if(this.e >= amount) {
+            if(this.energy >= amount) {
                 distance = enemy.distance;
                 if(distance > 4000) {
                     $("#dialogue").append("<p>" + "Klingon out of range of phasers at " + distance + " sectors..." + "</p>");
@@ -32,13 +32,13 @@ Game.prototype = {
                         enemy.destroy();
                     }
                 }
-                this.e -= amount;
+                this.energy -= amount;
             } else {
                 $("#dialogue").append("<p>" + "Insufficient energy to fire phasers!" + "</p>");
             }
         } else if(ui.parameter("command") === "photon") {
             enemy = ui.variable("target");
-            if(this.t > 0) {
+            if(this.torpedoes > 0) {
                 distance = enemy.distance;
                 if ((this.randomWithinLimitOf(4) + ((distance / 500) + 1) > 7)) {
                     $("#dialogue").append("<p>" + "Torpedo missed Klingon at " + distance + " sectors..." + "</p>");
@@ -53,7 +53,7 @@ Game.prototype = {
                         enemy.destroy();
                     }
                 }
-                this.t--;
+                this.torpedoes--;
             } else {
                 $("#dialogue").append("<p>" + "No more photon torpedoes!" + "</p>");
             }

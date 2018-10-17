@@ -5,14 +5,14 @@ describe("phasers", function() {
     
     beforeEach(function() {
         game = new Game();
-        energyBefore = game.e;
+        energyBefore = game.energy;
         ui = new UserInterface("phaser");
         spyOn(ui, "writeLine");
     });
 
     it("should complain with insufficient energy when not available", function() {
         // given
-        ui.commandParameter = game.e + 1;
+        ui.commandParameter = game.energy + 1;
 
         // when
         game.processCommand(ui);
@@ -36,7 +36,7 @@ describe("phasers", function() {
         });
 
         it("still subtracts the energy", function() {
-            expect(game.e).toBe(energyBefore - energyToFire);
+            expect(game.energy).toBe(energyBefore - energyToFire);
         });
     });
 
@@ -58,7 +58,7 @@ describe("phasers", function() {
         });
 
         it("subtracts energy", function() {
-            expect(game.e).toBe(energyBefore - 1000);
+            expect(game.energy).toBe(energyBefore - 1000);
         });
 
         it("really destroys", function() {
@@ -81,7 +81,7 @@ describe("phasers", function() {
         });
 
         it("subtracts energy", function() {
-            expect(game.e).toBe(energyBefore - 50);
+            expect(game.energy).toBe(energyBefore - 50);
         });
     });
 
@@ -100,8 +100,8 @@ describe("phasers", function() {
             expect(ui.writeLine).toHaveBeenCalledWith("Klingon has 199 remaining");
         });
 
-        it("mistakenly doesn't subtract that one unit", function() {
-            expect(game.e).toBe(energyBefore);
+        it("mistakenly doesn'torpedoes subtract that one unit", function() {
+            expect(game.energy).toBe(energyBefore);
         });
     });
 
