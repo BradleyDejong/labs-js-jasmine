@@ -11,12 +11,11 @@ Game.prototype = {
     randomWithinLimitOf: function (n) {
         return Math.floor(this.generator() * n);
     },
-    calculateDamageByDistance: function (amount, distance) {
-        var temp = (
-            amount -
-            (((amount / 20) * distance) / 200 + this.randomWithinLimitOf(200))
-        );
-        return temp < 1 ? 1 : temp;
+    calculateDamageByDistance: function (maxDamage, distance) {
+        const damageReductionByDistance = ((maxDamage / 20) * distance) / 200;
+        const qualityOfStrikePenalty = this.randomWithinLimitOf(200);
+        const finalDamage = (maxDamage - (damageReductionByDistance + qualityOfStrikePenalty));
+        return finalDamage < 1 ? 1 : finalDamage;
     },
     applyDamageToTarget: function (enemy, damage) {
         var messages = [];
