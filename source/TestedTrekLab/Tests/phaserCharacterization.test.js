@@ -12,14 +12,14 @@ describe("phasers", function() {
 
   beforeEach(function() {
     game = new Game();
-    energyBefore = game.energySource.remaining;
+    energyBefore = game.ship.energySource.remaining;
     ui = new UserInterface("phaser");
     spyOn(ui, "writeLine");
   });
 
   it("should complain with insufficient energy when not available", function() {
     // given
-    ui.commandParameter = game.energySource.remaining + 1;
+    ui.commandParameter = game.ship.energySource.remaining + 1;
 
     // when
     game.processCommand(ui);
@@ -47,7 +47,7 @@ describe("phasers", function() {
     });
 
     it("still subtracts the energy", function() {
-      expect(game.energySource.remaining).toBe(energyBefore - energyToFire);
+      expect(game.ship.energySource.remaining).toBe(energyBefore - energyToFire);
     });
   });
 
@@ -58,7 +58,7 @@ describe("phasers", function() {
       spyOn(klingon, "destroy");
       ui.target = klingon;
       ui.commandParameter = 1000;
-      spyOn(game.randomness, "generator").and.returnValue(0);
+      spyOn(game.ship.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -71,7 +71,7 @@ describe("phasers", function() {
     });
 
     it("subtracts energy", function() {
-      expect(game.energySource.remaining).toBe(energyBefore - 1000);
+      expect(game.ship.energySource.remaining).toBe(energyBefore - 1000);
     });
 
     it("really destroys", function() {
@@ -83,7 +83,7 @@ describe("phasers", function() {
     beforeEach(function() {
       ui.target = new Klingon(2000, 200);
       ui.commandParameter = 50;
-      spyOn(game.randomness, "generator").and.returnValue(0);
+      spyOn(game.ship.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -96,7 +96,7 @@ describe("phasers", function() {
     });
 
     it("subtracts energy", function() {
-      expect(game.energySource.remaining).toBe(energyBefore - 50);
+      expect(game.ship.energySource.remaining).toBe(energyBefore - 50);
     });
   });
 
@@ -104,7 +104,7 @@ describe("phasers", function() {
     beforeEach(function() {
       ui.target = new Klingon(2000, 200);
       ui.commandParameter = 0;
-      spyOn(game.randomness, "generator").and.returnValue(0);
+      spyOn(game.ship.randomness, "generator").and.returnValue(0);
 
       game.processCommand(ui);
     });
@@ -117,7 +117,7 @@ describe("phasers", function() {
     });
 
     it("mistakenly doesn'torpedoes subtract that one unit", function() {
-      expect(game.energySource.remaining).toBe(energyBefore);
+      expect(game.ship.energySource.remaining).toBe(energyBefore);
     });
   });
 });

@@ -12,12 +12,12 @@ describe("photons", function() {
     game = new Game();
     ui = new UserInterface("photon");
     spyOn(ui, "writeLine");
-    spyOn(game.randomness, "generator").and.returnValue(1);
+    spyOn(game.ship.randomness, "generator").and.returnValue(1);
   });
 
   it("reports when no torpedoes remain", function() {
     // given
-    game.torpedoTubes.remaining = 0;
+    game.ship.torpedoTubes.remaining = 0;
     ui.target = new Klingon();
 
     // when
@@ -42,7 +42,7 @@ describe("photons", function() {
     });
 
     it("reduces torpedoes available", function() {
-      expect(game.torpedoTubes.remaining).toBe(7);
+      expect(game.ship.torpedoTubes.remaining).toBe(7);
     });
   });
 
@@ -61,7 +61,7 @@ describe("photons", function() {
     });
 
     it("reduces torpedoes available", function() {
-      expect(game.torpedoTubes.remaining).toBe(7);
+      expect(game.ship.torpedoTubes.remaining).toBe(7);
     });
   });
 
@@ -83,7 +83,7 @@ describe("photons", function() {
     });
 
     it("subtracts a torpedo", function() {
-      expect(game.torpedoTubes.remaining).toBe(7);
+      expect(game.ship.torpedoTubes.remaining).toBe(7);
     });
 
     it("actually destroys Klingon", function() {
@@ -106,7 +106,7 @@ describe("photons", function() {
     });
 
     it("subtracts a torpedo", function() {
-      expect(game.torpedoTubes.remaining).toBe(7);
+      expect(game.ship.torpedoTubes.remaining).toBe(7);
     });
   });
 });
