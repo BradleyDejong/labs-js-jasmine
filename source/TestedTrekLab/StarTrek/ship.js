@@ -31,6 +31,7 @@ Ship.prototype = {
     
     transferReserveEnergyToShields: function(energyToTransfer) {
         this.energySource.subtract(energyToTransfer);
+        this.shield.energyRemaining += energyToTransfer;
     }
 };
 

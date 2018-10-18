@@ -24,15 +24,14 @@ describe("ship", () => {
     });
     it("ship can be instanced by passing in a shield", () => {
         const ship = new Ship(10, new Shield(10));
-        expect(ship.shield.remainingEnergy).toEqual(10);
+        expect(ship.shield.energyRemaining).toEqual(10);
     });
 
-    // it("shield energy is incremented when energy is transferred to shields", () => {
-    //     const ship = new Ship(10, new Shield(10));
-
-    //     ship.transferReserveEnergyToShields(5);
-    //     expect(ship.shield.remainingEnergy).toEqual(5);
-    // });
+    it("shield energy is incremented when energy is transferred to shields", () => {
+        const ship = new Ship(10, new Shield(10));
+        ship.transferReserveEnergyToShields(5);
+        expect(ship.shield.energyRemaining).toEqual(15);
+    });
     //transfer negative energy to shields
     
     

@@ -9,9 +9,6 @@ Shield.prototype = {
   get isUp() {
     return this.up;
   },
-  get remainingEnergy() {
-    return this.energyRemaining;
-  },
   transferEnergy: function(energyToTransfer) {
     var overloadDamage = 0;
     this.energyRemaining += energyToTransfer;
