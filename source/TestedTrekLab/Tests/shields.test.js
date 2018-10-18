@@ -38,8 +38,8 @@ describe("shield", () => {
     expect(shield.remainingEnergy).toEqual(0);
   });
 
-  it("buckles when is hit ", () => {
+  it("subsystems should take damage ", () => {
     const shield = new Shield();
-    expect(shield.transferEnergy(-9002)).toThrow(new Error("shields have buckled"));
+    expect(shield.transferEnergy(-9002)).toEqual(1);
   });
 });
