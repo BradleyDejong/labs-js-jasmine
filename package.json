@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/AgileInstitute/labs-js-jasmine#readme",
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "jasmine": "^3.2.0",
     "lr-http-server": "^0.1.5"
   }
 }

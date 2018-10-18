@@ -1,4 +1,4 @@
-Source = function(capacity) {
+const Source = function(capacity) {
   this.remaining = capacity;
 };
 
@@ -8,7 +8,7 @@ Source.prototype = {
   }
 };
 
-Weapon = function(randomGenerator) {
+export const Weapon = function(randomGenerator) {
   this.randomWithinLimitOf = n => {
     return Math.floor(randomGenerator.generator() * n);
   };
@@ -31,7 +31,7 @@ Weapon.prototype = {
   }
 };
 
-Phasers = function(randomGenerator, energySource) {
+export const Phasers = function(randomGenerator, energySource) {
   Weapon.call(this, randomGenerator);
   this.energySource = energySource;
 };
@@ -80,14 +80,13 @@ Phasers.prototype.calculateDamageByDistance = function(maxDamage, distance) {
   return finalDamage < 1 ? 1 : finalDamage;
 };
 
-Torpedoes = function(gen, torpedoSource) {
+export const Torpedoes = function(gen, torpedoSource) {
   Weapon.call(this, gen);
   this.torpedoMagazine = torpedoSource;
 };
 Torpedoes.prototype = Object.create(Weapon.prototype);
 
 Torpedoes.prototype.fire = function(enemy) {
-  console.log(this.torpedoMagazine);
   const canFire = this.torpedoMagazine.remaining > 0;
   if (canFire) {
     return this.fireTorpedoAt(enemy);
@@ -116,7 +115,7 @@ Torpedoes.prototype.fireTorpedoAt = function(enemy) {
   return messages;
 };
 
-Game = function() {
+export const Game = function() {
   this.energySource = new Source(10000);
   this.torpedoTubes = new Source(8);
   this.randomness = new RandomGenerator();
@@ -142,7 +141,7 @@ Game.prototype = {
   }
 };
 
-RandomGenerator = function() {};
+const RandomGenerator = function() {};
 
 RandomGenerator.prototype = {
   generator: function() {

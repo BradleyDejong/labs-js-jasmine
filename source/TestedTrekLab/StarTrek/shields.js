@@ -1,4 +1,4 @@
-Shield = function() {
+export const Shield = function() {
   this.up = false;
   this.energyRemaining = 9001;
   this.maxShieldEnergy = 10000;
@@ -13,10 +13,13 @@ Shield.prototype = {
     return this.energyRemaining;
   },
   transferEnergy: function(energyToTransfer) {
-    this.energyRemaining = Math.max(this.minShieldEnergy, Math.min(this.energyRemaining + energyToTransfer, this.maxShieldEnergy))
+    this.energyRemaining = Math.max(
+      this.minShieldEnergy,
+      Math.min(this.energyRemaining + energyToTransfer, this.maxShieldEnergy)
+    );
   }
 };
 
-Shield.prototype.setShield = function (val) {
-    this.up = val;
+Shield.prototype.setShield = function(val) {
+  this.up = val;
 };

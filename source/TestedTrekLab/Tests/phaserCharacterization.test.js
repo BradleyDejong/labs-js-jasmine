@@ -1,3 +1,7 @@
+import { Game, Phasers } from "../StarTrek/game";
+import { Klingon } from "../StarTrek/klingon";
+import { UserInterface } from "../Untouchables/userInterface.js";
+
 describe("phasers", function() {
   var game;
   var ui;
