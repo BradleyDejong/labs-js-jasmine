@@ -3,6 +3,7 @@ export const Shield = function(startingEnergy = 9001) {
   this.energyRemaining = startingEnergy;
   this.maxShieldEnergy = 10000;
   this.minShieldEnergy = 0;
+  this.damage = 0;
 };
 
 Shield.prototype = {

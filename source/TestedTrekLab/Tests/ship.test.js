@@ -32,6 +32,24 @@ describe("ship", () => {
         ship.transferReserveEnergyToShields(5);
         expect(ship.shield.energyRemaining).toEqual(15);
     });
+
+    it("ship can be hit", () => {
+        const ship = new Ship(10, new Shield(10));
+        ship.receiveHit(5);
+        expect(ship.shield.energyRemaining).toEqual(5);
+    });
+
+    it("when damage in excess of shield amount is dealt, shields are damaged", () => {
+        const ship = new Ship(10, new Shield(10));
+        ship.receiveHit(15);
+        expect(ship.shield.damage).toEqual(5);        
+    });
+
+    // it("when damage in excess of shield amount is dealt random subsystem is damaged", () => {
+    //     const ship = new Ship(10, new Shield(10));
+    //     expect(ship.subSystems).toBeTruthy();        
+    //     //
+    // });
     //transfer negative energy to shields
     
     

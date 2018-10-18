@@ -10,6 +10,7 @@ const Ship = function(startingEnergy = 10000, startingShield = new Shield()) {
     this.torpedoTubes = new ShipResource(8);
     this.randomness = new RandomGenerator();
     this.shield = startingShield;
+
     const myPhasers = new Phasers(this.randomness, this.energySource);
     const myTorpedoes = new Torpedoes(this.randomness, this.torpedoTubes);
 
@@ -32,6 +33,10 @@ Ship.prototype = {
     transferReserveEnergyToShields: function(energyToTransfer) {
         this.energySource.subtract(energyToTransfer);
         this.shield.energyRemaining += energyToTransfer;
+    },
+    receiveHit: function(hitAmount) {
+        var excessDamage = this.shield.transferEnergy((hitAmount * -1));
+        this.shield.damage += excessDamage;
     }
 };
 
