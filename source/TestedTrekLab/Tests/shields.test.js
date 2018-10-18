@@ -37,4 +37,9 @@ describe("shield", () => {
     shield.transferEnergy(-49872);
     expect(shield.remainingEnergy).toEqual(0);
   });
+
+  it("buckles when is hit ", () => {
+    const shield = new Shield();
+    expect(shield.transferEnergy(-9002)).toThrow(new Error("shields have buckled"));
+  });
 });
