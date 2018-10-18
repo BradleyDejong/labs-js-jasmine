@@ -15,10 +15,11 @@ Shield.prototype = {
   transferEnergy: function(energyToTransfer) {
     var overloadDamage = 0;
     this.energyRemaining += energyToTransfer;
-    if (this.energyRemaining > 10000) this.energyRemaining = 10000;
-    if (this.energyRemaining < 0) {
+    if (this.energyRemaining > this.maxShieldEnergy)
+      this.energyRemaining = this.maxShieldEnergy;
+    if (this.energyRemaining < this.minShieldEnergy) {
       overloadDamage = Math.abs(this.energyRemaining);
-      this.energyRemaining = 0;
+      this.energyRemaining = this.minShieldEnergy;
     }
     return overloadDamage;
   }

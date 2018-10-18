@@ -8,7 +8,6 @@ describe("shield", () => {
 
   it("can be raised", () => {
     const shield = new Shield();
-    expect(shield.isUp).toBeFalsy();
     shield.setShield(true);
     expect(shield.isUp).toBeTruthy();
   });
@@ -20,7 +19,6 @@ describe("shield", () => {
 
   it("transfers energy to the shield", () => {
     const shield = new Shield();
-    expect(shield.remainingEnergy).toEqual(9001);
     shield.transferEnergy(4);
     expect(shield.remainingEnergy).toEqual(9005);
   });
@@ -34,11 +32,11 @@ describe("shield", () => {
   it("should min out at 0 energy", () => {
     const shield = new Shield();
     expect(shield.remainingEnergy).toEqual(9001);
-    shield.transferEnergy(-49872);
+    shield.transferEnergy(-9002);
     expect(shield.remainingEnergy).toEqual(0);
   });
 
-  it("subsystems should take damage ", () => {
+  it("return excess damage ", () => {
     const shield = new Shield();
     expect(shield.transferEnergy(-9002)).toEqual(1);
   });
