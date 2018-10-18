@@ -1,6 +1,6 @@
-export const Shield = function() {
+export const Shield = function(startingEnergy = 9001) {
   this.up = false;
-  this.energyRemaining = 9001;
+  this.energyRemaining = startingEnergy;
   this.maxShieldEnergy = 10000;
   this.minShieldEnergy = 0;
 };

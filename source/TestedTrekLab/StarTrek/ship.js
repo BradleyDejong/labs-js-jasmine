@@ -3,12 +3,13 @@ import ShipResource from './ShipResource';
 import Phasers from './Phasers';
 import Torpedoes from './Torpedoes';
 import RandomGenerator from './RandomGenerator';
+import { Shield } from './shields';
 
-const Ship = function() {
-    this.energySource = new ShipResource(10000);
+const Ship = function(startingEnergy = 10000, startingShield = new Shield()) {
+    this.energySource = new ShipResource(startingEnergy);
     this.torpedoTubes = new ShipResource(8);
     this.randomness = new RandomGenerator();
-
+    this.shield = startingShield;
     const myPhasers = new Phasers(this.randomness, this.energySource);
     const myTorpedoes = new Torpedoes(this.randomness, this.torpedoTubes);
 
@@ -27,7 +28,10 @@ const Ship = function() {
 
 
 Ship.prototype = {
-
+    
+    transferReserveEnergyToShields: function(energyToTransfer) {
+        this.energySource.subtract(energyToTransfer);
+    }
 };
 
 export default Ship;
