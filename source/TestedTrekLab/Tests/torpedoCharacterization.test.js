@@ -1,4 +1,6 @@
-import { Game, Phasers } from "../StarTrek/game";
+import { Game } from "../StarTrek/game";
+import Torpedoes from "../StarTrek/Torpedoes";
+import Phasers from "../StarTrek/Phasers";
 import { Klingon } from "../StarTrek/klingon";
 import { UserInterface } from "../Untouchables/userInterface.js";
 
