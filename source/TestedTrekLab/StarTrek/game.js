@@ -1,7 +1,7 @@
-import Ship from './ship';
+import Ship from "./ship";
 
 export const Game = function() {
-    this.ship = new Ship();
+  this.ship = new Ship();
 };
 
 Game.prototype = {
@@ -12,6 +12,7 @@ Game.prototype = {
 
     const command = ui.parameter("command");
     const enemy = ui.variable("target");
-    writeAllMessages(this.ship.weapons[command](enemy, ui));
+    const weapon = this.ship.weapons[command];
+    writeAllMessages(weapon(enemy, ui));
   }
 };

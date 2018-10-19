@@ -11,7 +11,7 @@
     "start": "lr-http-server",
     "build:tests": "browserify Tests/all.js -o bundle.js -t [ babelify ]",
     "build:tests:watch": "watchify Tests/all.js -o bundle.js -t [ babelify ]",
-    "cuke": "cucumber-js features/**/*.feature"
+    "cuke": "cucumber-js --require-module @babel/register features/**/*.feature"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "@babel/register": "^7.0.0",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
+    "chai": "^4.2.0",
     "concurrently": "^4.0.1",
     "cucumber": "^5.0.2",
     "jasmine": "^3.2.0",
