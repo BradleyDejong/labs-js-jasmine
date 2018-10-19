@@ -10,7 +10,8 @@
     "test": "concurrently \"npm run build:tests:watch\" \"npm start\"",
     "start": "lr-http-server",
     "build:tests": "browserify Tests/all.js -o bundle.js -t [ babelify ]",
-    "build:tests:watch": "watchify Tests/all.js -o bundle.js -t [ babelify ]"
+    "build:tests:watch": "watchify Tests/all.js -o bundle.js -t [ babelify ]",
+    "cuke": "cucumber-js features/**/*.feature"
   },
   "repository": {
     "type": "git",
